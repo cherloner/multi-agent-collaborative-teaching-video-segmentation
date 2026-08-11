@@ -1,0 +1,339 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="CUTPOINT 智能视频切片工具，自动理解长视频并生成 15-60 秒高光短片。"
+    />
+    <meta name="theme-color" content="#080a12" />
+    <meta property="og:title" content="CUTPOINT | 智能视频切片" />
+    <meta
+      property="og:description"
+      content="从场景变化与声音边界中提取证据，生成可直接预览的高光短片。"
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="./assets/cutpoint-technical-roadmap.png" />
+    <title>CUTPOINT | 智能视频切片</title>
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22><rect width=%2264%22 height=%2264%22 rx=%2214%22 fill=%22%23080a12%22/><path d=%22M16 14v36M30 22v28M44 30v20%22 stroke=%22%23b7c4ff%22 stroke-width=%228%22 stroke-linecap=%22round%22/></svg>"
+    />
+    <link rel="preload" as="image" href="./assets/cutpoint-filmstrip.webp" />
+    <link rel="stylesheet" href="./styles.css" />
+    <script src="./script.js" defer></script>
+  </head>
+  <body>
+    <div class="page-noise" aria-hidden="true"></div>
+
+    <header class="site-header">
+      <a class="brand" href="#top" aria-label="CUTPOINT 首页">
+        <span class="brand-mark" aria-hidden="true">
+          <i></i><i></i><i></i>
+        </span>
+        <span>CUTPOINT</span>
+      </a>
+      <nav aria-label="主导航">
+        <a href="#process">切片流程</a>
+        <a href="#capabilities">核心能力</a>
+        <a href="#quality">质量保障</a>
+      </nav>
+      <span class="nav-note">AI VIDEO EDITOR</span>
+    </header>
+
+    <main>
+      <section class="hero" id="top" aria-labelledby="hero-title">
+        <div class="hero-copy reveal">
+          <p class="eyebrow">让每一分钟都有传播价值</p>
+          <h1 id="hero-title">
+            <span>一小时长片，</span>
+            <span class="accent-line">切成高光。</span>
+          </h1>
+          <p class="hero-subtitle">
+            理解语义、画面与情绪，在完整语句间精准落刀，自动生成 15-60 秒可发布短片。
+          </p>
+        </div>
+
+        <div
+          class="process-demo reveal"
+          id="process"
+          role="img"
+          aria-label="循环动画：长视频经过 AI 扫描和切点标记后，分裂为多条短视频"
+        >
+          <div class="demo-head">
+            <div>
+              <span class="demo-kicker">LONG TO SHORT</span>
+              <strong id="stageLabel">读取长视频</strong>
+            </div>
+            <div class="stage-count" aria-live="polite">
+              <span id="stageIndex">01</span>
+              <span>/ 04</span>
+            </div>
+          </div>
+
+          <div class="source-frame" aria-hidden="true">
+            <img
+              src="./assets/cutpoint-filmstrip.webp"
+              alt=""
+              width="1920"
+              height="800"
+              fetchpriority="high"
+            />
+            <div class="source-shade"></div>
+            <div class="source-caption">
+              <span>原始视频</span>
+              <strong>01:12:48</strong>
+            </div>
+            <div class="scan-beam"></div>
+          </div>
+
+          <div class="timeline" aria-hidden="true">
+            <div class="waveform">
+              <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+              <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+              <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+            </div>
+            <div class="timeline-progress"></div>
+            <span class="cut-marker marker-1"></span>
+            <span class="cut-marker marker-2"></span>
+            <span class="cut-marker marker-3"></span>
+            <span class="cut-marker marker-4"></span>
+          </div>
+
+          <div class="signal-row" aria-hidden="true">
+            <span>语义</span>
+            <span>场景</span>
+            <span>情绪</span>
+            <span>静音</span>
+            <span>边界证据</span>
+          </div>
+
+          <div class="clip-deck" aria-hidden="true">
+            <!-- 以下时长为界面演示数据 -->
+            <article class="clip" style="--i: 0; --pos: 0%">
+              <div class="clip-image"></div>
+              <div class="clip-meta"><strong>高光片段</strong><span>00:27</span></div>
+            </article>
+            <article class="clip" style="--i: 1; --pos: 25%">
+              <div class="clip-image"></div>
+              <div class="clip-meta"><strong>观点切片</strong><span>00:46</span></div>
+            </article>
+            <article class="clip" style="--i: 2; --pos: 50%">
+              <div class="clip-image"></div>
+              <div class="clip-meta"><strong>数据时刻</strong><span>00:35</span></div>
+            </article>
+            <article class="clip" style="--i: 3; --pos: 75%">
+              <div class="clip-image"></div>
+              <div class="clip-meta"><strong>创作片段</strong><span>00:52</span></div>
+            </article>
+            <article class="clip" style="--i: 4; --pos: 100%">
+              <div class="clip-image"></div>
+              <div class="clip-meta"><strong>收束镜头</strong><span>00:19</span></div>
+            </article>
+          </div>
+
+          <div class="demo-foot">
+            <span>多模态时间轴</span>
+            <span id="processState">正在建立内容索引</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="signal-band" aria-label="多模态分析信号">
+        <div class="signal-track">
+          <span>ASR 语音识别</span><span>场景变化</span><span>OCR 画面文本</span>
+          <span>说话人识别</span><span>情绪峰值</span><span>静音边界</span>
+          <span>视觉理解</span><span>语句完整性</span>
+          <span aria-hidden="true">ASR 语音识别</span><span aria-hidden="true">场景变化</span>
+          <span aria-hidden="true">OCR 画面文本</span><span aria-hidden="true">说话人识别</span>
+          <span aria-hidden="true">情绪峰值</span><span aria-hidden="true">静音边界</span>
+          <span aria-hidden="true">视觉理解</span><span aria-hidden="true">语句完整性</span>
+        </div>
+      </section>
+
+      <section class="capabilities section-shell" id="capabilities" aria-labelledby="cap-title">
+        <div class="section-heading reveal">
+          <h2 id="cap-title">不是按秒切，是读懂后再落刀。</h2>
+          <p>从内容理解到成片发布，每一步都围绕完整表达与传播效果。</p>
+        </div>
+
+        <div class="feature-grid">
+          <article class="feature feature-highlight reveal">
+            <div class="feature-copy">
+              <span class="feature-code">AI</span>
+              <h3>智能高光检测</h3>
+              <p>融合语音、场景、情绪与关键帧，找到值得被单独观看的片段。</p>
+            </div>
+            <div class="highlight-visual" aria-hidden="true">
+              <div class="highlight-frame"></div>
+              <div class="focus-window"></div>
+              <div class="evidence-line"><i></i><i></i><i></i><i></i><i></i></div>
+            </div>
+          </article>
+
+          <article class="feature feature-subtitles reveal">
+            <div class="feature-copy">
+              <span class="feature-code">CC</span>
+              <h3>多语种字幕生成</h3>
+              <p>识别、翻译、断句与时间轴对齐一次完成。</p>
+            </div>
+            <div class="subtitle-stack" aria-hidden="true">
+              <span>一句话，完整落在镜头里。</span>
+              <span>Keep every idea intact.</span>
+              <span>ひとつの考えを、完全な形で。</span>
+            </div>
+          </article>
+
+          <article class="feature feature-publish reveal">
+            <div class="feature-copy">
+              <span class="feature-code">PUB</span>
+              <h3>一键多平台发布</h3>
+              <p>自动适配横屏、竖屏与字幕安全区，输出即可发布。</p>
+            </div>
+            <div class="format-rail" aria-hidden="true">
+              <span class="ratio-wide"></span>
+              <span class="ratio-square"></span>
+              <span class="ratio-tall"></span>
+            </div>
+          </article>
+
+          <article class="feature feature-quality reveal" id="quality">
+            <img
+              src="./assets/cutpoint-studio.webp"
+              alt="深色专业视频剪辑工作台与多终端短视频预览"
+              width="1600"
+              height="900"
+              loading="lazy"
+            />
+            <div class="quality-copy">
+              <span class="feature-code">QC</span>
+              <div>
+                <h3>成片前，再由 AI 质检一次。</h3>
+                <p>检查句中误切、音画同步、黑帧与重复片段，并保留每个切点的证据。</p>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="closing section-shell reveal" aria-labelledby="closing-title">
+        <div class="closing-copy">
+          <h2 id="closing-title">把时间留给创作，<br />把重复剪辑交给 CUTPOINT。</h2>
+          <p>上传长视频，选择目标时长，剩下的交给智能切片流程。</p>
+        </div>
+        <div class="closing-slice" aria-hidden="true">
+          <span></span><span></span><span></span><span></span>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <a class="brand" href="#top" aria-label="返回首页">
+        <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span>
+        <span>CUTPOINT</span>
+      </a>
+      <p>智能视频切片，从理解内容开始。</p>
+    </footer>
+
+    <button class="trial-cta" id="trialButton" type="button" aria-haspopup="dialog">
+      <span>开始试用</span>
+      <b aria-hidden="true">↗</b>
+    </button>
+
+    <dialog class="trial-dialog" id="trialDialog" aria-labelledby="dialogTitle">
+      <form method="dialog" class="dialog-shell" id="uploadForm">
+        <button class="dialog-close" value="cancel" aria-label="关闭">×</button>
+        <p class="dialog-kicker">创建第一个切片任务</p>
+        <h2 id="dialogTitle">上传一条长视频</h2>
+        <p class="dialog-intro">
+          视频仅发送到本机服务。分析完成后原文件会自动删除，生成的短片保存在本机。
+        </p>
+
+        <label class="drop-zone" id="dropZone" for="videoInput">
+          <input
+            id="videoInput"
+            name="video"
+            type="file"
+            accept=".mp4,.mov,.mkv,.webm,.m4v,video/mp4,video/quicktime,video/x-matroska,video/webm"
+          />
+          <span class="upload-glyph" aria-hidden="true">＋</span>
+          <strong id="fileLabel">选择视频，或拖放到这里</strong>
+          <small id="fileHelp">单个文件，建议时长 10 分钟以上</small>
+        </label>
+        <p class="form-message" id="formMessage" role="status"></p>
+
+        <div class="analysis-options">
+          <label class="option-select" for="targetDuration">
+            <span>目标时长</span>
+            <select id="targetDuration" name="target_duration">
+              <option value="15">15 秒</option>
+              <option value="30" selected>30 秒</option>
+              <option value="45">45 秒</option>
+              <option value="60">60 秒</option>
+            </select>
+          </label>
+          <label class="option-select" for="outputFormat">
+            <span>发布画幅</span>
+            <select id="outputFormat" name="output_format">
+              <option value="source">保持原画幅</option>
+              <option value="landscape">横屏 16:9</option>
+              <option value="portrait" selected>竖屏 9:16</option>
+              <option value="square">方形 1:1</option>
+            </select>
+          </label>
+          <label class="caption-option" for="captionsEnabled">
+            <input
+              id="captionsEnabled"
+              name="captions_enabled"
+              type="checkbox"
+              checked
+            />
+            <span>
+              <strong>自动字幕</strong>
+              <small>避开平台底部操作区</small>
+            </span>
+          </label>
+        </div>
+        <p class="analysis-hint">保留完整主体，智能填充画布；自动生成最多 3 条候选片段。</p>
+
+        <section class="job-progress" id="jobProgress" aria-live="polite" hidden>
+          <div class="progress-copy">
+            <strong id="progressPhase">准备任务</strong>
+            <span id="progressValue">0%</span>
+          </div>
+          <div
+            class="progress-track"
+            id="progressTrack"
+            role="progressbar"
+            aria-label="视频分析进度"
+            aria-valuemin="0"
+            aria-valuemax="100"
+            aria-valuenow="0"
+          >
+            <span id="progressBar"></span>
+          </div>
+        </section>
+
+        <section class="job-result" id="jobResult" aria-labelledby="resultTitle" hidden>
+          <div class="result-heading">
+            <div>
+              <p>分析完成</p>
+              <h3 id="resultTitle">候选高光片段</h3>
+            </div>
+            <span id="resultSummary"></span>
+          </div>
+          <div class="result-grid" id="resultGrid"></div>
+        </section>
+
+        <div class="dialog-actions">
+          <button class="secondary-action" value="cancel">稍后再说</button>
+          <button class="cancel-action" id="cancelJobButton" type="button" hidden>
+            取消任务
+          </button>
+          <button class="primary-action" id="analyzeButton" type="button" disabled>开始分析</button>
+        </div>
+      </form>
+    </dialog>
+  </body>
+</html>

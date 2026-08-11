@@ -1,0 +1,91 @@
+{
+  "version": 1,
+  "gates": {
+    "scene_f1": 0.95,
+    "silence_iou": 0.95,
+    "black_iou": 0.95,
+    "semantic_iou": 0.95,
+    "highlight_recall": 1.0,
+    "highlight_mean_iou": 0.55,
+    "speech_ratio": 0.8,
+    "clean_frame_ratio": 0.95,
+    "semantic_coverage": 0.6,
+    "visual_uniqueness": 0.5,
+    "feedback_pairwise_accuracy": 0.95,
+    "feedback_pairwise_accuracy_gain": 0.5,
+    "render_delivery_pass": 1.0,
+    "render_duration_accuracy": 0.8,
+    "av_sync_accuracy": 0.75,
+    "audio_loudness_accuracy": 0.8,
+    "audio_fade_effectiveness": 0.75,
+    "speaker_boundary_protection": 1.0,
+    "speaker_expected_cut_accuracy": 1.0,
+    "analysis_realtime_factor": 1.0,
+    "perceptual_duplicate_similarity": 0.94,
+    "perceptual_similarity_margin": 0.5
+  },
+  "feedback_experiment": {
+    "repeats": 8,
+    "keep": {
+      "speech_ratio": 0.42,
+      "clean_frame_ratio": 0.85,
+      "boundary_alignment": 0.6,
+      "scene_density": 0.4,
+      "semantic_score": 0.95,
+      "visual_uniqueness": 0.65,
+      "speaker_boundary_score": 0.65
+    },
+    "reject": {
+      "speech_ratio": 0.96,
+      "clean_frame_ratio": 0.85,
+      "boundary_alignment": 0.6,
+      "scene_density": 0.4,
+      "semantic_score": 0.05,
+      "visual_uniqueness": 0.65,
+      "speaker_boundary_score": 0.65
+    }
+  },
+  "render_experiment": {
+    "fixture": "deterministic-v2",
+    "video": "../runtime/evaluation/deterministic-v2.mp4",
+    "output": "../runtime/evaluation/render-audio-gate.mp4",
+    "start": 0,
+    "duration": 5,
+    "output_format": "landscape"
+  },
+  "speaker_experiment": {
+    "duration": 60,
+    "target_duration": 15,
+    "limit": 1,
+    "turns": [
+      [0, 10, "A"],
+      [10, 25, "B"],
+      [25, 40, "A"],
+      [40, 55, "B"],
+      [55, 60, "A"]
+    ],
+    "expected_clip": [10, 25]
+  },
+  "visual_robustness_experiment": {
+    "crop_margin": 1,
+    "channel_scales": [0.82, 0.94, 1.08],
+    "channel_offsets": [24, 10, -4]
+  },
+  "cases": [
+    {
+      "id": "deterministic-hard-cuts-v1",
+      "fixture": "deterministic-v2",
+      "video": "../runtime/evaluation/deterministic-v2.mp4",
+      "target_duration": 15,
+      "boundary_tolerance": 0.75,
+      "minimum_highlight_iou": 0.45,
+      "expected": {
+        "scene_times": [20.0, 25.0, 45.0],
+        "silence_ranges": [[20.0, 25.0], [45.0, 50.0]],
+        "black_ranges": [[45.0, 50.0]],
+        "semantic_ranges": [[1.0, 8.0], [10.0, 18.0], [25.5, 32.0], [34.0, 42.0]],
+        "highlights": [[0.0, 20.0], [25.0, 45.0]]
+      }
+    }
+  ]
+}
